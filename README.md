@@ -91,7 +91,30 @@ You will receive the following response from the request:
 ```
 On hitting this endpoint, you will receive an updated token. Please save it as it will be used as a `Bearer Token` in the following requests to the API.
 
-4. Reset Database (Admin API):
+
+4. Contact between two individuals
+When two individuals are close to each other, a bluetooth scan catches the MAC address of the other and makes an HTTP POST request to the following endpoint with the following body and headers,
+```
+Authorization: Bearer <token received after signing up/logging in>
+```
+
+URL
+```
+http://<ip-address-of-the-system-running-NodeJS-API>:3000/users/contact
+```
+
+PAYLOAD:
+```
+{
+	"bluetoothMac": "R:BT:MAC",
+	"latitude": 37.773972,
+	"longitude": -122.431297
+}
+```
+
+The endpoint tries to create a relationship between the two nodes. First it checks if a relationship was created within the last 5 minutes. If yes, then it does not create one. Else, it creates one. Irrespective of the relationship been created or not, the endpoint checks the `isDiagnosed` property of both users. If it is true for either of the person then it sends a push notification to the other person.
+
+5. Reset Database (Admin API):
 Make an HTTP DELETE request to the following URL,
 URL
 ```
