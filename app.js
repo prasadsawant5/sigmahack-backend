@@ -7,8 +7,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const covidRouter = require('./routes/covid');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(cors({ credentials: true}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/covid', covidRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

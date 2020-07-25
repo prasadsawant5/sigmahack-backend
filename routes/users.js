@@ -71,6 +71,20 @@ router.post('/signup', async function(req, res, next) {
     return next(error);
   }
 
+  if (body.latitude === null || body.latitude === undefined || body.latitude === '') {
+    const error = new Error('Invalid gender');
+    error.text = 'Invalid latitude';
+    error.status = 400;
+    return next(error);
+  }
+
+  if (body.longitude === null || body.longitude === undefined || body.longitude === '') {
+    const error = new Error('Invalid longitude');
+    error.text = 'Invalid longitude';
+    error.status = 400;
+    return next(error);
+  }
+
   if (body.bluetoothMac === null || body.bluetoothMac === undefined || body.bluetoothMac === '') {
     const error = new Error('Invalid Bluetooth MAC Address');
     error.text = 'Invalid Bluetooth MAC Address';
@@ -84,21 +98,32 @@ router.post('/signup', async function(req, res, next) {
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(body.password, salt);
 
-    const userExistsQuery = 'MERGE (user:User { email: $email }) RETURN user AS u';
+    const userExistsQuery = 'MATCH (user:User { email: $email }) RETURN user AS u';
 
     const userRes = await session.run(userExistsQuery, { email: body.email });
-    console.log(userRes.records[0]['_fields'][0]['properties']);
+    console.log(userRes.records);
 
-    if (userRes.records[0]['_fields'][0]['properties']['password'] !== undefined && userRes.records[0]['_fields'][0]['properties']['password'] !== null) {
+    if (userRes.records.length !== 0 && userRes.records[0]['_fields'][0]['properties']['password'] !== undefined && userRes.records[0]['_fields'][0]['properties']['password'] !== null) {
       const user = userRes.records[0]['_fields'][0]['properties'];
+      console.log(user);
 
       const token = jwt.sign({user: user}, keys.secret);
       res.status(200).json({ message: 'User already exists', object: { token: token }});
     } else {
-      const query = 'CREATE (user:User { name: $name, email: $email, password: $password, age: $age, gender: $gender, bluetoothMac: $bluetoothMac }) RETURN user';
+      const query = 'CREATE (user:User { name: $name, email: $email, password: $password, age: $age, gender: $gender, bluetoothMac: $bluetoothMac, isDiagnosed: $isDiagnosed, latitude: $latitude, longitude: $longitude, firebaseId: $firebaseId }) RETURN user';
 
       const result = await session.run(query, { 
-        name: body.name, email: body.email, password: hash, age: parseInt(body.age), gender: body.gender, bluetoothMac: body.bluetoothMac });
+        name: body.name, 
+        email: body.email, 
+        password: hash, 
+        age: parseInt(body.age), 
+        gender: body.gender, 
+        bluetoothMac: body.bluetoothMac,
+        isDiagnosed: false,
+        latitude: body.latitude,
+        longitude: body.longitude,
+        firebaseId: body.firebaseId 
+      });
 
       const user = result.records[0]['_fields'][0]['properties'];
       const token = jwt.sign({user: user}, keys.secret);
@@ -139,7 +164,7 @@ router.post('/login', async function(req, res, next) {
   const session = driver.session({ database: keys.database });
 
   try {
-    const query = 'MERGE (user:User { email: $email }) RETURN user';
+    const query = 'MATCH (user:User { email: $email }) RETURN user';
 
     const result = await session.run(query, { email: body.email });
     const user = result.records[0]['_fields'][0]['properties'];
@@ -165,8 +190,6 @@ router.post('/login', async function(req, res, next) {
   } finally {
     session.close();
   }
-
-
 });
 
 module.exports = router;
