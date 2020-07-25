@@ -84,16 +84,27 @@ router.post('/signup', async function(req, res, next) {
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(body.password, salt);
 
-    const userExistsQuery = 'MERGE (user:User { email: $email }) RETURN user';
+    const userExistsQuery = 'MERGE (user:User { email: $email }) RETURN user AS u';
 
-    const result = session.run(userExistsQuery, { email: body.email });
+    const userRes = await session.run(userExistsQuery, { email: body.email });
+    console.log(userRes.records[0]['_fields'][0]['properties']);
 
-    // const query = 'CREATE (user:User { name: $name, email: $email, password: $password, age: $age, gender: $gender, bluetoothMac: $bluetoothMac }) RETURN user';
+    if (userRes.records[0]['_fields'][0]['properties']['password'] !== undefined && userRes.records[0]['_fields'][0]['properties']['password'] !== null) {
+      const user = userRes.records[0]['_fields'][0]['properties'];
 
-    // const result = await session.run(query, { 
-    //   name: body.name, email: body.email, password: hash, age: parseInt(body.age), gender: body.gender, bluetoothMac: body.bluetoothMac });
+      const token = jwt.sign({user: user}, keys.secret);
+      res.status(200).json({ message: 'User already exists', object: { token: token }});
+    } else {
+      const query = 'CREATE (user:User { name: $name, email: $email, password: $password, age: $age, gender: $gender, bluetoothMac: $bluetoothMac }) RETURN user';
 
-    res.status(201).json({ message: 'ok', object: result });
+      const result = await session.run(query, { 
+        name: body.name, email: body.email, password: hash, age: parseInt(body.age), gender: body.gender, bluetoothMac: body.bluetoothMac });
+
+      const user = result.records[0]['_fields'][0]['properties'];
+      const token = jwt.sign({user: user}, keys.secret);
+
+      res.status(201).json({ message: 'ok', object: { token: token }});
+    }
   } catch (err) {
     console.error(err);
     const error = new Error('Server error');
@@ -105,12 +116,10 @@ router.post('/signup', async function(req, res, next) {
   } finally {
     session.close();
   }
-
-
 });
 
 
-router.post('/signin', async function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   const body = req.body;
 
   if (body.email === null || body.email === undefined || body.email === '') {
@@ -130,14 +139,21 @@ router.post('/signin', async function(req, res, next) {
   const session = driver.session({ database: keys.database });
 
   try {
-    const salt = bcrypt.genSaltSync(5);
-    const hash = bcrypt.hashSync(body.password, salt);
+    const query = 'MERGE (user:User { email: $email }) RETURN user';
 
-    const query = 'MERGE (user:User { email: $email, password: $password }) RETURN user';
+    const result = await session.run(query, { email: body.email });
+    const user = result.records[0]['_fields'][0]['properties'];
 
-    const result = await session.run(query, { email: body.email, password: hash });
+    if (!bcrypt.compareSync(body.password, user.password)) {
+      const error = new Error('Incorrect password');
+      error.text = 'Incorrect password';
+      error.status = 401;
+      return next(error);
+    }
 
-    res.status(201).json({ message: 'ok', object: result });
+    const token = jwt.sign({user: user}, keys.secret);
+
+    res.status(200).json({ message: 'ok', object: { token: token }});
   } catch (err) {
     console.error(err);
     const error = new Error('Server error');
