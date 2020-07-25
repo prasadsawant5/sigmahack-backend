@@ -12,7 +12,7 @@ For signing-up, make an HTTP POST request to the following URL with the followin
 
 URL
 ```
-http://<id-address-of-the-system-running-NodeJS-API>:3000/uses/signup
+http://<ip-address-of-the-system-running-NodeJS-API>:3000/uses/signup
 ```
 
 PAYLOAD
@@ -36,7 +36,7 @@ You will receive the following response from the request:
 {
     "message": "ok",
     "object": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6LId-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6Lip-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
     }
 }
 ```
@@ -47,7 +47,7 @@ Make an HTTP POST request to the following URL with the following payload,
 
 URL
 ```
-http://<id-address-of-the-system-running-NodeJS-API>:3000/uses/login
+http://<ip-address-of-the-system-running-NodeJS-API>:3000/uses/login
 ```
 
 PAYLOAD
@@ -63,7 +63,7 @@ You will receive the following response from the request:
 {
     "message": "ok",
     "object": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6LId-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6Lip-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
     }
 }
 ```
@@ -77,7 +77,7 @@ Authorization: Bearer <token received after signing up/logging in>
 
 URL
 ```
-http://<id-address-of-the-system-running-NodeJS-API>:3000/covid/positive
+http://<ip-address-of-the-system-running-NodeJS-API>:3000/covid/positive
 ```
 
 You will receive the following response from the request:
@@ -85,7 +85,7 @@ You will receive the following response from the request:
 {
     "message": "ok",
     "object": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6LId-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkIjoiJDJiJDA1JHlQVjQvcmhGQ1BBNC5ZMHp3TEVNak8xZmk2MmROek9MOURhbzlqVzdFM3pQUXowNjVzYlY2IiwiZ2VuZGVyIjoibWFsZSIsImZpcmViYXNlSWQiOiJub3RpZmljYXRpb25JZCIsImJsdWV0b290aE1hYyI6ImJsdWV0b290aE1hYyIsImxhdGl0dWRlIjozNy43NzM5NzIsIm5hbWUiOiJKb2huIERvZSIsImlzRGlhZ25vc2VkIjpmYWxzZSwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJhZ2UiOjMwLCJsb25naXR1ZGUiOi0xMjIuNDMxMjk3fSwiaWF0IjoxNTk1NjkxNTcwfQ.Iw_fxBF3q6Lip-s2Xw8s9eLhSlz3x7qJyoL1RBB3qXs"
     }
 }
 ```
@@ -95,5 +95,5 @@ On hitting this endpoint, you will receive an updated token. Please save it as i
 Make an HTTP DELETE request to the following URL,
 URL
 ```
-http://<id-address-of-the-system-running-NodeJS-API>:3000/
+http://<ip-address-of-the-system-running-NodeJS-API>:3000/
 ```
